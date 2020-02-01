@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 void main() => runApp(MyApp());
 
@@ -7,11 +6,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Calculator',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.deepOrange,
       ),
-      home: MyHomePage(title: 'Just for Fun'),
+      home: MyHomePage(title: 'Calculator'),
     );
   }
 }
@@ -26,86 +25,155 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter2() {
-    setState(() {
-      _counter = Random().nextInt(100);
-    });
-  }
-
-  void _incrementCounter1() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-/* void _description(){
-  Text("Generates random number between 1 and 100");
-} */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: new Container(
-        child: Center(
+        appBar: AppBar(
+          title: Text("Calculator"),
+        ),
+        body: Container(
+          margin: new EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'The answer is:',
-                style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple),
-              ),
-              Text(
-                '$_counter',
-                style: TextStyle(fontSize: 22.0, color: Colors.indigo),
-              ),
-              Container(
-                  child: Align(
-                alignment: Alignment(0.8, -0.2),
-                child: RaisedButton(
-                  onPressed: _incrementCounter2,
-                  child: Text(
-                    "Random",
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  textColor: Colors.yellow,
-                  color: Colors.green[300],
-                  padding: EdgeInsets.symmetric(
-                    vertical: 12.0,
-                    horizontal: 12.0,
-                  ),
-                ),
-              )
-              ),
-            Container(
-              child: Align(
-                alignment: Alignment(0.5,1.0),
-                child: RaisedButton(
-                  onPressed: _incrementCounter1,
-                  child: Text(
-                    "Increment")
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Row(children: <Widget>[
+                Expanded(
+                    child: Container(
+                        margin: new EdgeInsets.symmetric(horizontal: 20.0),
+                        child: TextField(
+                          decoration: InputDecoration.collapsed(
+                              hintText: "Enter first operand ",
+                              hintStyle: TextStyle(
+                                fontSize: 15.0,
+                              )),
+                          onSubmitted: (String text) {},
+                          cursorColor: Colors.blue,
+                          showCursor: true,
+                          cursorWidth: 1.0,
+                        ))),
+              ]),
+              Row(children: <Widget>[
+                Expanded(
+                    child: Container(
+                        margin: new EdgeInsets.symmetric(horizontal: 20.0),
+                        child: TextField(
+                          decoration: InputDecoration.collapsed(
+                            hintText: "Enter second operand ",
+                            hintStyle: TextStyle(
+                              fontSize: 15.0,
+                            ),
+                          ),
+                          onSubmitted: (String text) {},
+                          cursorColor: Colors.blue,
+                          showCursor: true,
+                          cursorWidth: 1.0,
+                        )))
+              ]),
+              /* Row(
+                children: <Widget>[
+                    
+                ],
+              ), */
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    "**result**",
+                    style: TextStyle(
+                      fontSize: 25.0,
                     ),
-                ),
+                  )
+                ],
               ),
-            ]
+              Row(
+                children: <Widget>[SizedBox(height: 30.0)],
+              ),
+              Row(children: <Widget>[
+                Expanded(
+                  child: OutlineButton(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    onPressed: () {},
+                    child: Text(
+                      "+",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: OutlineButton(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    onPressed: () {},
+                    child: Text(
+                      "-",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                )
+              ]),
+              Row(children: <Widget>[
+                Expanded(
+                  child: OutlineButton(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    onPressed: () {},
+                    child: Text(
+                      "x",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: OutlineButton(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    onPressed: () {},
+                    child: Text(
+                      "/",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                )
+              ]),
+              Row(children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    onPressed: () {},
+                    child: Text(
+                      "C",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: OutlineButton(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                    onPressed: () {},
+                    child: Text(
+                      "=",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                )
+              ]),
+            ],
           ),
-          ),
-        ),  // NAMAN JAIN
-      );
+        ));
   }
-}
-
-@override
-Widget build(BuildContext context) {
-  // TODO: implement build
-  return null;
 }
