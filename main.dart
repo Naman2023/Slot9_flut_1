@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(title: 'Calculator'),
     );
   }
-}//Naman
+} //Naman
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -22,9 +23,59 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
-}//Naman
+} //Naman
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController eCtrl = TextEditingController();
+  TextEditingController vCtrl = TextEditingController();
+
+  double _firstop = 0;
+  double _secondop = 0;
+  double _res = 0;
+  double _restemp = 0;
+  String _operator = ' ';
+
+  void _add() {
+    setState(() {
+      _restemp = _firstop + _secondop;
+    });
+  }//Naman
+
+  void _diff() {
+    setState(() {
+      _restemp = _firstop - _secondop;
+    });
+  }//Naman
+
+  void _product() {
+    setState(() {
+      _restemp = _firstop * _secondop;
+    });
+  }//Naman
+
+  void _quotient() {
+    setState(() {
+      _restemp = _firstop / _secondop;
+    });
+  }//Naman
+
+  void _clear() {
+    setState(() {
+      _firstop = 0;
+      _secondop = 0;
+      _res = 0;
+      _restemp = 0;
+      _operator = ' ';
+    });
+  }//Naman
+
+  _resdisp() {
+    setState(() {
+      _res = _restemp;
+      return _res;
+    });
+  }//Naman
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,59 +92,90 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Container(
                         margin: new EdgeInsets.symmetric(horizontal: 20.0),
                         child: TextField(
+                          controller: eCtrl,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration.collapsed(
                               hintText: "Enter first operand ",
                               hintStyle: TextStyle(
-                                fontSize: 15.0,
+                                fontSize: 20.0,
                               )),
-                          onSubmitted: (String text) {},
+                          inputFormatters: [
+                            WhitelistingTextInputFormatter.digitsOnly
+                          ],
+                          onChanged: (String text) {
+                            _firstop = double.parse(text);
+                          },
+                          onSubmitted: (String text) {
+                            _firstop = double.parse(text);
+                          },
                           cursorColor: Colors.blue,
                           showCursor: true,
                           cursorWidth: 1.0,
                         ))),
-              ]),//Naman
+              ]), //Naman
               Row(children: <Widget>[
                 Expanded(
                     child: Container(
                         margin: new EdgeInsets.symmetric(horizontal: 20.0),
                         child: TextField(
+                          controller: vCtrl,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration.collapsed(
                             hintText: "Enter second operand ",
                             hintStyle: TextStyle(
-                              fontSize: 15.0,
+                              fontSize: 20.0,
                             ),
                           ),
-                          onSubmitted: (String text) {},
+                          inputFormatters: [
+                            WhitelistingTextInputFormatter.digitsOnly
+                          ],
+                          onChanged: (String text) {
+                            _secondop = double.parse(text);
+                          },
+                          onSubmitted: (String text) {
+                            _secondop = double.parse(text);
+                          },
                           cursorColor: Colors.blue,
                           showCursor: true,
                           cursorWidth: 1.0,
                         )))
-              ]),//Naman
-              /* Row(
+              ]), //Naman
+              Row(
                 children: <Widget>[
-                    
+                  Expanded(
+                    child: Container(
+                      margin: new EdgeInsets.symmetric(horizontal:20.0),
+                      child: Text("$_operator",
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),)
+                    )
+                  )
                 ],
-              ), */
+              ),//Naman
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    "**result**",
+                    "$_res",
                     style: TextStyle(
                       fontSize: 25.0,
                     ),
                   )
                 ],
-              ),
+              ),//Naman
               Row(
                 children: <Widget>[SizedBox(height: 30.0)],
-              ),
+              ),//Naman
               Row(children: <Widget>[
                 Expanded(
                   child: OutlineButton(
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    onPressed: () {},
+                    onPressed: () {
+                      _add();
+                      _operator = '+';
+                    },
                     child: Text(
                       "+",
                       style: TextStyle(
@@ -106,7 +188,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: OutlineButton(
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    onPressed: () {},
+                    onPressed: () {
+                      _diff();
+                      _operator = '-';
+                    },
                     child: Text(
                       "-",
                       style: TextStyle(
@@ -115,13 +200,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 )
-              ]),//Naman
+              ]), //Naman
               Row(children: <Widget>[
                 Expanded(
                   child: OutlineButton(
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    onPressed: () {},
+                    onPressed: () {
+                      _product();
+                      _operator = 'x';
+                    },
                     child: Text(
                       "x",
                       style: TextStyle(
@@ -134,7 +222,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: OutlineButton(
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    onPressed: () {},
+                    onPressed: () {
+                      _quotient();
+                      _operator = '/';
+                    },
                     child: Text(
                       "/",
                       style: TextStyle(
@@ -143,13 +234,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 )
-              ]),//Naman
+              ]), //Naman
               Row(children: <Widget>[
                 Expanded(
                   child: RaisedButton(
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    onPressed: () {},
+                    onPressed: () {
+                      _clear();
+                      eCtrl.clear();
+                      vCtrl.clear();
+                    },
                     child: Text(
                       "C",
                       style: TextStyle(
@@ -162,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: OutlineButton(
                     padding:
                         EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    onPressed: () {},
+                    onPressed: _resdisp,
                     child: Text(
                       "=",
                       style: TextStyle(
@@ -174,6 +269,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
             ],
           ),
-        ));//Naman
-  }//Naman
+        )); //Naman
+  } //Naman
 }
